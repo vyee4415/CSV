@@ -16,16 +16,17 @@ public class Tutorial1 {
 	} 
 	private static List<Book> readBooksFromCSV(String fileName) { 
 		List<Book> books = new ArrayList<>(); 
-		Path pathToFile = Paths.get(fileName)
-		(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) { 
-		String line = br.readLine(); 
-		while (line != null) { 
-			String[] attributes = line.split(","); 
-			Book book = createBook(attributes);
-			books.add(book); 
-			line = br.readLine(); 
+		Path pathToFile = Paths.get(fileName);
+		try(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) { 
+			String line = br.readLine(); 
+			while (line != null) { 
+				String[] attributes = line.split(", "); 
+				Book book = createBook(attributes);
+				books.add(book); 
+				line = br.readLine(); 
 			} 
-		} catch (IOException ioe) { 
+		} 
+		catch (IOException ioe) { 
 			ioe.printStackTrace(); 
 		} 
 		return books; 
@@ -35,17 +36,18 @@ public class Tutorial1 {
 		int price = Integer.parseInt(metadata[1]); 
 		String author = metadata[2]; 
 		return new Book(name, price, author); 
-		} 
 	} 
-	class Book { 
-		private String name; 
-		private int price1; 
-		private String author1; 
-		public Book(String name, int price, String author) { 
-			this.name = name; 
-			this.price1 = price; 
-			this.author1 = author; 
-		} 
+} 
+
+class Book { 
+	private String name; 
+	private int price1; 
+	private String author1; 
+	public Book(String name, int price, String author) { 
+		this.name = name; 
+		this.price1 = price; 
+		this.author1 = author; 
+	} 
 	public String getName() { 
 		return name; 
 	} 
@@ -67,11 +69,5 @@ public class Tutorial1 {
 	public String toString() { 
 		return "Book [name=" + name + ", price=" + price1 + ", author=" + author1 + "]"; 
 	} 
-	}
-	Output 
-	Book [name=Effective Java, price=42, author=Joshua Bloch]
-	Book [name=Head First Java, price=39, author=Kathy Sierra] 
-	Book [name=Head First Design Pattern, price=44, author=Kathy Sierra] 
-	Book [name=Introduction to Algorithm, price=72, author=Thomas Cormen]
-
 }
+
